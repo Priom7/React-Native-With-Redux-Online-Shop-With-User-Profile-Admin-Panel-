@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  FlatList
+  FlatList,
+
 } from "react-native";
 import ProductList from "./ProductList";
 const data = require("../../assets/data/products.json");
@@ -24,12 +25,13 @@ const ProductContainer = () => {
     <View>
       <Text>Product Container</Text>
       <View style={{ marginTop: 100 }}>
-        <FlatList
-          horizontal
+        <FlatList      
           data={products}
-          renderItem={({ item }) => (
-            <ProductList key={item.id} item={item} />
-          )}
+          renderItem={({ item }) => 
+            <ProductList
+             key={item.id}
+              item={item} />
+          }
           keyExtractor={item => item.name}
         />
       </View>
