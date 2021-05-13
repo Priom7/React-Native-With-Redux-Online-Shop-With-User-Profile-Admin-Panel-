@@ -12,7 +12,7 @@ const Header = () => {
       <Image
         source={require("../assets/Quince.png")}
         resizeMode='contain'
-        style={{ height: 100, marginTop: 10 }}
+        style={{ height: 50, marginTop: 10 }}
       />
     </SafeAreaView>
   );

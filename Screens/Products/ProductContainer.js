@@ -17,7 +17,9 @@ import {
 import ProductList from "./ProductList";
 import SearchedProducts from "./SearchedProducts";
 import Banner from "../../Shared/Banner";
+import CategoryFilter from "./CategoryFilter";
 const data = require("../../assets/data/products.json");
+const products_categories = require("../../assets/data/categories.json");
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -25,16 +27,26 @@ const ProductContainer = () => {
     []
   );
   const [focus, setFocus] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [productCtg, setProductCtg] = useState([]);
+  const [active, setActive] = useState();
+  const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
     setProducts(data);
     setProductFiltered(data);
     setFocus(false);
+    setCategories(products_categories);
+    setActive(-1);
+    setInitialState(data);
 
     return () => {
       setProducts([]);
       setProductFiltered([]);
       setFocus([]);
+      setCategories([]);
+      setActive();
+      setInitialState();
     };
   }, []);
 
@@ -54,15 +66,36 @@ const ProductContainer = () => {
     setFocus(false);
   };
 
+  //Categories
+
+  const changeCategory = ctg => {
+    {
+      ctg == "all"
+        ? [setProductCtg(initialState), setActive(true)]
+        : [
+            setProductCtg(
+              products.filter(i => i.category.$oid === ctg),
+              setActive(true)
+            )
+          ];
+    }
+  };
+
   return (
-    <Container>
+    <Container style={{ backgroundColor: "#fdcfdf" }}>
       <Header
-        androidStatusBarColor='pink'
+        androidStatusBarColor='#fdcfdf'
         searchBar
         rounded
         transparent
       >
-        <Item>
+        <Item
+          style={{
+            backgroundColor: "white",
+            borderRadius: 30,
+            opacity: 0.5
+          }}
+        >
           <Icon name='ios-search'></Icon>
           <Input
             placeholder='Search'
@@ -83,6 +116,15 @@ const ProductContainer = () => {
           <View>
             <View>
               <Banner></Banner>
+            </View>
+            <View>
+              <CategoryFilter
+                categories={categories}
+                categoryFilter={changeCategory}
+                productCtg={productCtg}
+                active={active}
+                setActive={setActive}
+              ></CategoryFilter>
             </View>
             <View>
               <FlatList
