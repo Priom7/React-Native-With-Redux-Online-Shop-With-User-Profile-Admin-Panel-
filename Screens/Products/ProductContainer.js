@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from "react-native";
 import {
   Container,
@@ -20,6 +21,8 @@ import Banner from "../../Shared/Banner";
 import CategoryFilter from "./CategoryFilter";
 const data = require("../../assets/data/products.json");
 const products_categories = require("../../assets/data/categories.json");
+
+var { height } = Dimensions.get("window");
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -39,6 +42,7 @@ const ProductContainer = () => {
     setCategories(products_categories);
     setActive(-1);
     setInitialState(data);
+    setProductCtg(data);
 
     return () => {
       setProducts([]);
@@ -126,21 +130,51 @@ const ProductContainer = () => {
                 setActive={setActive}
               ></CategoryFilter>
             </View>
-            <View>
-              <FlatList
-                numColumns={2}
-                data={products}
-                renderItem={({ item }) => (
-                  <ProductList key={item.id} item={item} />
-                )}
-                keyExtractor={item => item.name}
-              />
-            </View>
+            {productCtg.length > 0 ? (
+              <View style={styles.listContainer}>
+                {productCtg.map(item => {
+                  return (
+                    <ProductList
+                      key={item.id}
+                      item={item}
+                    />
+                  );
+                })}
+              </View>
+            ) : (
+              <View
+                style={[
+                  styles.center,
+                  { height: height / 2 }
+                ]}
+              >
+                <Text>No products found</Text>
+              </View>
+            )}
           </View>
         </ScrollView>
       )}
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexWrap: "wrap",
+    backgroundColor: "gainsboro"
+  },
+  listContainer: {
+    height: height,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+    backgroundColor: "gainsboro"
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
 
 export default ProductContainer;

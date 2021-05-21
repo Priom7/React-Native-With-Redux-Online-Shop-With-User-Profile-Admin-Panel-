@@ -3,21 +3,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "./Shared/Header";
 import ProductContainer from "./Screens/Products/ProductContainer";
+import { NavigationContainer } from "@react-navigation/native";
+import Main from "./Navigators/Main";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
       <Header></Header>
-      <ProductContainer></ProductContainer>
-    </View>
+      <Main></Main>
+      {/* <ProductContainer></ProductContainer> */}
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fdcfdf",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
