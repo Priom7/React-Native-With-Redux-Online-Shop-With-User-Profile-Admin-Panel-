@@ -20,6 +20,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   header: {
+    // backgroundColor: "#fdcfdf",
+    backgroundColor: "gainsboro",
     width: "100%",
     flexDirection: "row",
     alignContent: "center",

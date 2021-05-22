@@ -19,12 +19,13 @@ import ProductList from "./ProductList";
 import SearchedProducts from "./SearchedProducts";
 import Banner from "../../Shared/Banner";
 import CategoryFilter from "./CategoryFilter";
+import { useLinkProps } from "@react-navigation/native";
 const data = require("../../assets/data/products.json");
 const products_categories = require("../../assets/data/categories.json");
 
 var { height } = Dimensions.get("window");
 
-const ProductContainer = () => {
+const ProductContainer = props => {
   const [products, setProducts] = useState([]);
   const [productFiltered, setProductFiltered] = useState(
     []
@@ -86,9 +87,9 @@ const ProductContainer = () => {
   };
 
   return (
-    <Container style={{ backgroundColor: "#fdcfdf" }}>
+    <Container style={{ backgroundColor: "gainsboro" }}>
       <Header
-        androidStatusBarColor='#fdcfdf'
+        androidStatusBarColor='gainsboro'
         searchBar
         rounded
         transparent
@@ -113,6 +114,7 @@ const ProductContainer = () => {
       </Header>
       {focus == true ? (
         <SearchedProducts
+          navigation={props.navigation}
           productFiltered={productFiltered}
         ></SearchedProducts>
       ) : (
@@ -135,6 +137,7 @@ const ProductContainer = () => {
                 {productCtg.map(item => {
                   return (
                     <ProductList
+                      navigation={props.navigation}
                       key={item.id}
                       item={item}
                     />
@@ -161,6 +164,7 @@ const ProductContainer = () => {
 const styles = StyleSheet.create({
   container: {
     flexWrap: "wrap",
+    // backgroundColor: "#fdcfdf"
     backgroundColor: "gainsboro"
   },
   listContainer: {
@@ -169,6 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     flexWrap: "wrap",
+    // backgroundColor: "#fdcfdf"
     backgroundColor: "gainsboro"
   },
   center: {

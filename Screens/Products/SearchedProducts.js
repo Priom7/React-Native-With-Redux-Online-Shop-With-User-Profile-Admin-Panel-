@@ -17,7 +17,15 @@ const SearchedProducts = props => {
     <Content style={{ width: width }}>
       {productFiltered.length > 0 ? (
         productFiltered.map(item => (
-          <ListItem key={item._id.$oid} avatar>
+          <ListItem
+            onPress={() => {
+              props.navigation.navigate("Product Details", {
+                item: item
+              });
+            }}
+            key={item._id.$oid}
+            avatar
+          >
             <Left>
               <Thumbnail
                 source={{
