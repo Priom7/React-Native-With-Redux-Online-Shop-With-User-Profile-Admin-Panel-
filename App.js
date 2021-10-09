@@ -16,7 +16,7 @@ import store from "./Redux/store";
 import Main from "./Navigators/Main";
 
 //TO avoid logs
-LogBox.ignoreAllLogs(true);
+// LogBox.ignoreAllLogs(true);
 
 export default function App() {
   return (

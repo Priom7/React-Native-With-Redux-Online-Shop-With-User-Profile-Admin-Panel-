@@ -5,13 +5,14 @@ import {
   Dimensions,
   Image,
   Text,
-  Button
+  Button,
 } from "react-native";
 import { Badge, Icon } from "native-base";
-
+import { connect } from "react-redux";
+import * as actions from "../../Redux/Actions/cartActions";
 var { width } = Dimensions.get("window");
 
-const ProductCard = props => {
+const ProductCard = (props) => {
   const { name, price, image, countInStock } = props;
 
   return (
@@ -22,7 +23,7 @@ const ProductCard = props => {
         source={{
           uri: image
             ? image
-            : "https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png"
+            : "https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png",
         }}
       />
       <View style={styles.badges}>
@@ -40,7 +41,14 @@ const ProductCard = props => {
       <Text style={styles.price}>${price}</Text>
       {countInStock > 0 ? (
         <View style={{ marginBottom: 60 }}>
-          <Button title={"Add"} color={"#fca3cc"}></Button>
+          <Button
+            title={"Add"}
+            color={"#fca3cc"}
+            onPress={() => {
+              console.log(props);
+              props.addItemToCart(props);
+            }}
+          ></Button>
         </View>
       ) : (
         <Text style={{ marginTop: 20 }}>
@@ -51,12 +59,20 @@ const ProductCard = props => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItemToCart: (product) => {
+      dispatch(actions.addToCart({ quantity: 1, product }));
+    },
+  };
+};
+
 const styles = StyleSheet.create({
   discount: { position: "absolute", top: 0, left: 45 },
   badges: {
     display: "flex",
     flexDirection: "row",
-    opacity: 0.9
+    opacity: 0.9,
   },
   container: {
     width: width / 2 - 20,
@@ -68,30 +84,33 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     alignItems: "center",
     elevation: 8,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   image: {
     width: width / 2 - 20 - 10,
     height: width / 2 - 20 - 30,
     backgroundColor: "transparent",
     position: "absolute",
-    top: -45
+    top: -45,
   },
   card: {
     marginBottom: 10,
     height: width / 2 - 20 - 90,
     backgroundColor: "transparent",
-    width: width / 2 - 20 - 10
+    width: width / 2 - 20 - 10,
   },
   title: {
     fontWeight: "bold",
     fontSize: 14,
-    textAlign: "center"
+    textAlign: "center",
   },
   price: {
     fontSize: 20,
     color: "#bce6eb",
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });
-export default ProductCard;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProductCard);
